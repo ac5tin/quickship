@@ -1,14 +1,15 @@
 package store
 
-import "quickship/deploy"
+import "quickship/structs"
 
-type record struct {
-	Name   string        `json:"name"`
-	Deploy deploy.Deploy `json:"deploy"`
-	HookID *int          `json:"hook_id"`
+// Record - a deployment record
+type Record struct {
+	Name   string         `json:"name"`
+	Deploy structs.Deploy `json:"deploy"`
+	HookID *int           `json:"hook_id"`
 }
 
-type file map[string]*record
+type file map[string]Record
 
 // Store - a store object contianing path and file
 type Store struct {

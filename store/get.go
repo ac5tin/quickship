@@ -2,7 +2,7 @@ package store
 
 import (
 	"encoding/json"
-	"quickship/deploy"
+	"quickship/structs"
 )
 
 func (s Store) fetchStore() (file, error) {
@@ -21,13 +21,16 @@ func (s Store) fetchStore() (file, error) {
 // GetList - get list of records
 func (s Store) GetList() []ListRecord {
 	retme := make([]ListRecord, 0)
-	for uid, rec := range *s.file {
-		retme = append(retme, ListRecord{ID: uid, Name: rec.Name})
+	if s.file != nil && len(*s.file) > 0 {
+		for uid, rec := range *s.file {
+			retme = append(retme, ListRecord{ID: uid, Name: rec.Name})
+		}
 	}
+
 	return retme
 }
 
 // GetRecordDeploy - get record deploy info
-func (s Store) GetRecordDeploy(id string) deploy.Deploy {
+func (s Store) GetRecordDeploy(id string) structs.Deploy {
 	return (*s.file)[id].Deploy
 }

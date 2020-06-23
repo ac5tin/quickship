@@ -8,4 +8,5 @@ require (
 	github.com/gofiber/fiber v1.12.0
 	github.com/gofiber/recover v0.1.0
 	github.com/buger/jsonparser v1.0.0
+	github.com/ac5tin/usefulgo v0.0.0-20200611140054-48de21009022
 )

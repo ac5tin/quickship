@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"quickship/master"
+	"quickship/store"
 
 	"github.com/gofiber/compression"
 	"github.com/gofiber/fiber"
@@ -13,12 +14,21 @@ import (
 
 var (
 	addr = flag.Int("addr", 8000, "TCP Address to listen to")
+	path = flag.String("path", "./qs.json", "Path to qs.json which stores deployment info")
+	srv  = flag.Bool("s", false, "Server mode")
+	name = flag.String("n", "", "Name of deployment")
+	up   = flag.String("up", "", "Path to file to be added to deployment list")
 )
 
 func main() {
 	flag.Parse()
+	if *srv {
+		server()
+		return
+	}
+	// Command line mode
+	cmd()
 
-	server()
 }
 
 func server() {
@@ -26,6 +36,14 @@ func server() {
 	app := fiber.New()
 	// middleware
 	app.Use(compression.New())
+
+	// store
+	s := store.Init(*path)
+	app.Use(func(c *fiber.Ctx) {
+		c.Locals("store", &s)
+		c.Next()
+	})
+
 	// ==== API ROUTES =====
 	app.Get("/ping", func(c *fiber.Ctx) { c.Status(200).Send("pong") })
 
