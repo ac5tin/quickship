@@ -40,7 +40,7 @@ func server() {
 	// store
 	s := store.Init(*path)
 	app.Use(func(c *fiber.Ctx) {
-		c.Locals("store", &s)
+		c.Locals("store", s)
 		c.Next()
 	})
 

@@ -5,7 +5,7 @@ import (
 	"quickship/structs"
 )
 
-func (s Store) saveStore() error {
+func (s *Store) saveStore() error {
 	data, err := json.Marshal(s.file)
 	if err != nil {
 		return err
@@ -13,11 +13,14 @@ func (s Store) saveStore() error {
 	if err := write(data, s.path); err != nil {
 		return err
 	}
+	if _, err := s.fetchStore(); err != nil {
+		return err
+	}
 	return nil
 }
 
 // AddRecord - adds a record to store
-func (s Store) AddRecord(id string, d structs.Deploy, name string) error {
+func (s *Store) AddRecord(id string, d structs.Deploy, name string) error {
 	data, err := read(s.path)
 	if err != nil {
 		return err
@@ -39,7 +42,7 @@ func (s Store) AddRecord(id string, d structs.Deploy, name string) error {
 }
 
 // SetHookID - sets hook id to a record
-func (s Store) SetHookID(hookid int, recordID string) error {
+func (s *Store) SetHookID(hookid int, recordID string) error {
 	data, err := read(s.path)
 	if err != nil {
 		return err

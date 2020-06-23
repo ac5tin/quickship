@@ -6,7 +6,7 @@ import (
 )
 
 // Init - initialise a store
-func Init(path string) Store {
+func Init(path string) *Store {
 
 	if !files.FileExist(path) {
 		// create new file if does not exist
@@ -20,10 +20,11 @@ func Init(path string) Store {
 	}
 	s := Store{
 		path: path,
+		file: nil,
 	}
 	if _, err := s.fetchStore(); err != nil {
 		log.Println("Failed to fetch store")
 		log.Panic(err.Error())
 	}
-	return s
+	return &s
 }
