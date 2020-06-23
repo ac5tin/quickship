@@ -41,6 +41,24 @@ func (s *Store) AddRecord(id string, d structs.Deploy, name string) error {
 	return nil
 }
 
+// RmRecord - removes a record by id
+func (s *Store) RmRecord(id string) error {
+	data, err := read(s.path)
+	if err != nil {
+		return err
+	}
+	var f file
+	if err := json.Unmarshal(data, &f); err != nil {
+		return err
+	}
+	delete(f, id)
+	s.file = &f
+	if err := s.saveStore(); err != nil {
+		return err
+	}
+	return nil
+}
+
 // SetHookID - sets hook id to a record
 func (s *Store) SetHookID(hookid int, recordID string) error {
 	data, err := read(s.path)
