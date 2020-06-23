@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	nethttp "net/http"
 	"os"
 
@@ -16,6 +17,8 @@ import (
 
 // Clone - git clone a repo
 func Clone(repourl string, branch string, path string, token string) error {
+	log.Println("Cloning")
+	defer log.Println("Done cloning")
 	_, err := git.PlainClone(path, false, &git.CloneOptions{
 		Auth: &http.BasicAuth{
 			Username: "user",
@@ -25,6 +28,7 @@ func Clone(repourl string, branch string, path string, token string) error {
 		URL:           repourl,
 		Progress:      os.Stdout,
 	})
+
 	if err != nil {
 		return err
 	}
@@ -33,6 +37,8 @@ func Clone(repourl string, branch string, path string, token string) error {
 
 // Pull - git pull a repo
 func Pull(repourl string, branch string, path string, token string) error {
+	log.Println("Pulling")
+	defer log.Println("Done pulling")
 	repo, err := git.PlainOpen(path)
 	if err != nil {
 		return err
