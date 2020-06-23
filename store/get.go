@@ -32,6 +32,11 @@ func (s *Store) GetList() []ListRecord {
 	return retme
 }
 
+// GetRecord - get record info
+func (s *Store) GetRecord(id string) Record {
+	return (*s.file)[id]
+}
+
 // GetRecordDeploy - get record deploy info
 func (s *Store) GetRecordDeploy(id string) structs.Deploy {
 	return (*s.file)[id].Deploy

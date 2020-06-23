@@ -13,8 +13,5 @@ func AddRecord(d structs.Deploy, name string, s *store.Store) error {
 	if err := s.AddRecord(uuid, d, name); err != nil {
 		return err
 	}
-	if err := s.AddRecord(uuid, d, name); err != nil {
-		return err
-	}
 	return nil
 }

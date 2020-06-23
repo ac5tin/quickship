@@ -43,23 +43,15 @@ func webhook(c *fiber.Ctx) {
 		return
 	}
 
-	/*
-		repo, err := jsonparser.GetString(b, "repository", "name")
-		if err != nil {
-			log.Println(err.Error())
-			c.Status(400).JSON(fiber.Map{
-				"result": "error",
-				"error":  "Failed to parse body",
-			})
-			return
-		}
-	*/
-
 	splits := strings.Split(ref, "/")
 	branch := splits[len(splits)-1]
 
 	uid := c.Params("id") // record id
-	deploy.Record(uid, branch)
+	s := c.Locals("store").(*store.Store)
+	d := s.GetRecordDeploy(uid)
+	if d.Branch == branch {
+		deploy.Record(d)
+	}
 
 	// all done, now return data
 	// return data back to client
@@ -128,6 +120,19 @@ func rmRec(c *fiber.Ctx) {
 	// return data back to client
 	c.Status(200).JSON(fiber.Map{
 		"result": "success",
+	})
+	return
+}
+
+func getRec(c *fiber.Ctx) {
+	s := c.Locals("store").(*store.Store)
+	uid := c.Params("id") // record id
+	recordata := s.GetRecord(uid)
+	// all done, now return data
+	// return data back to client
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+		"data":   recordata,
 	})
 	return
 }

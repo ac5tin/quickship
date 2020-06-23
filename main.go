@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"quickship/master"
+	"quickship/slave"
 	"quickship/store"
 
 	"github.com/gofiber/compression"
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/recover"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 var (
@@ -49,6 +51,9 @@ func server() {
 
 	masterapi := app.Group("/api/master")
 	master.Routes(masterapi)
+
+	slaveapi := app.Group("/api/slave")
+	slave.Routes(slaveapi)
 
 	// ===== ERROR RECOVER =====
 	cfg := recover.Config{

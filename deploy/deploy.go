@@ -1,4 +1,8 @@
 package deploy
 
+import "quickship/structs"
+
 // Record - deploys or redeploys a record
-func Record(recordID string, branch string) {}
+func Record(d structs.Deploy) {
+
+}

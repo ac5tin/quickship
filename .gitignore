@@ -3,3 +3,4 @@ test
 test.json
 bin
 qs.json
+.env
