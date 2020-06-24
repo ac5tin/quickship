@@ -112,7 +112,7 @@ func rmRec(c *fiber.Ctx) {
 	uid := c.Params("id")        // record id
 	dp := s.GetRecordDeploy(uid) // deploy record
 	go deploy.DelRecord(dp, uid)
-	if err := s.RmRecord(uid); err != nil {
+	if err := rmRecord(uid, s); err != nil {
 		log.Println("Failed to remove record")
 		log.Println(err.Error())
 		c.Status(400).JSON(fiber.Map{

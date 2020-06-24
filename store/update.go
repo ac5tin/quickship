@@ -20,7 +20,7 @@ func (s *Store) saveStore() error {
 }
 
 // AddRecord - adds a record to store
-func (s *Store) AddRecord(id string, d structs.Deploy, name string) error {
+func (s *Store) AddRecord(id string, d structs.Deploy, name string, hookid int) error {
 	data, err := read(s.path)
 	if err != nil {
 		return err
@@ -32,6 +32,7 @@ func (s *Store) AddRecord(id string, d structs.Deploy, name string) error {
 	r := Record{
 		Name:   name,
 		Deploy: d,
+		HookID: &hookid,
 	}
 	f[id] = r
 	s.file = &f
