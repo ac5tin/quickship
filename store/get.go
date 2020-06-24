@@ -41,3 +41,9 @@ func (s *Store) GetRecord(id string) Record {
 func (s *Store) GetRecordDeploy(id string) structs.Deploy {
 	return (*s.file)[id].Deploy
 }
+
+// Exist - check if id exist
+func (s *Store) Exist(id string) bool {
+	_, exist := (*s.file)[id]
+	return exist
+}

@@ -109,7 +109,16 @@ func addNewRec(c *fiber.Ctx) {
 
 func rmRec(c *fiber.Ctx) {
 	s := c.Locals("store").(*store.Store)
-	uid := c.Params("id")        // record id
+	uid := c.Params("id") // record id
+	if !s.Exist(uid) {
+		// does not exist
+		log.Println("ID does not exist")
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "ID does not exist",
+		})
+		return
+	}
 	dp := s.GetRecordDeploy(uid) // deploy record
 	go deploy.DelRecord(dp, uid)
 	if err := rmRecord(uid, s); err != nil {
@@ -133,6 +142,15 @@ func rmRec(c *fiber.Ctx) {
 func getRec(c *fiber.Ctx) {
 	s := c.Locals("store").(*store.Store)
 	uid := c.Params("id") // record id
+	if !s.Exist(uid) {
+		// does not exist
+		log.Println("ID does not exist")
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "ID does not exist",
+		})
+		return
+	}
 	recordata := s.GetRecord(uid)
 	// all done, now return data
 	// return data back to client

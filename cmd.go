@@ -25,6 +25,10 @@ func cmd() {
 		downCmd()
 		return
 	}
+	if *list {
+		lCmd()
+		return
+	}
 }
 
 func upCmd() {
@@ -58,11 +62,29 @@ func upCmd() {
 }
 
 func downCmd() {
-	fmt.Printf("Removing record")
+	fmt.Println("Removing record")
 	if err := command.RmRecord(*down, fmt.Sprintf("http://localhost:%d", *addr)); err != nil {
 		fmt.Println("Failed to remove record")
 		log.Panic(err.Error())
 		return
 	}
 	return
+}
+
+// list
+func lCmd() {
+	fmt.Println("Listing records")
+	reclist, err := command.ListRecords(fmt.Sprintf("http://localhost:%d", *addr))
+	if err != nil {
+		fmt.Println("Failed to retrieve list")
+		log.Panic(err.Error())
+		return
+	}
+
+	// print list
+	for _, r := range reclist {
+		fmt.Println("ID: %s | Name: %s", r.ID, r.Name)
+	}
+	return
+
 }

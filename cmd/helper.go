@@ -50,3 +50,26 @@ func RmRecord(id, server string) error {
 	}
 	return nil
 }
+
+// ListRecords - return list of records
+func ListRecords(server string) ([]store.ListRecord, error) {
+	req, err := http.NewRequest("Get", fmt.Sprintf("%s/api/master/list/all", server), nil)
+	if err != nil {
+		return make([]store.ListRecord, 0), err
+	}
+	// REQ SETUP SUCCESS
+	// NOW SEND REQ
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return make([]store.ListRecord, 0), err
+	}
+	defer resp.Body.Close()
+	var listresp struct {
+		Data []store.ListRecord `json:"data"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&listresp); err != nil {
+		return make([]store.ListRecord, 0), err
+	}
+	return listresp.Data, nil
+}
