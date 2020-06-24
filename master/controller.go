@@ -109,7 +109,9 @@ func addNewRec(c *fiber.Ctx) {
 
 func rmRec(c *fiber.Ctx) {
 	s := c.Locals("store").(*store.Store)
-	uid := c.Params("id") // record id
+	uid := c.Params("id")        // record id
+	dp := s.GetRecordDeploy(uid) // deploy record
+	go deploy.DelRecord(dp, uid)
 	if err := s.RmRecord(uid); err != nil {
 		log.Println("Failed to remove record")
 		log.Println(err.Error())
@@ -119,6 +121,7 @@ func rmRec(c *fiber.Ctx) {
 		})
 		return
 	}
+
 	// all done, now return data
 	// return data back to client
 	c.Status(200).JSON(fiber.Map{

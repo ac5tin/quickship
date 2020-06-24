@@ -34,7 +34,6 @@ func NewRecord(d structs.Deploy, id string) {
 		go func(server string) {
 			defer wg.Done()
 			runclone(d.GitRepo, d.Branch, server, id)
-			log.Println(d.AddFiles)
 			if d.AddFiles != nil && len(*d.AddFiles) > 0 {
 				for _, f := range *d.AddFiles {
 					runcmd(fmt.Sprintf("curl %s -o %s", f.URL, f.Name), server, id)
@@ -49,6 +48,7 @@ func NewRecord(d structs.Deploy, id string) {
 
 // DelRecord - removes a record
 func DelRecord(d structs.Deploy, id string) {
+	log.Println(fmt.Sprintf("Deleting Record : %s", id))
 	for _, server := range d.Nodes {
 		go func(server string) {
 			if d.Clean != nil {
