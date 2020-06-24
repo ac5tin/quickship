@@ -16,10 +16,13 @@ import (
 
 var (
 	addr = flag.Int("addr", 8000, "TCP Address to listen to")
+	ms   = flag.String("master", "", "URL endpoint of master node server")
 	path = flag.String("path", "./qs.json", "Path to qs.json which stores deployment info")
 	srv  = flag.Bool("s", false, "Server mode")
 	name = flag.String("n", "", "Name of deployment")
 	up   = flag.String("up", "", "Path to file to be added to deployment list")
+	down = flag.String("down", "", "ID of deployment record to be removed")
+	list = flag.Bool("l", false, "List deployment records")
 )
 
 func main() {

@@ -21,6 +21,10 @@ func cmd() {
 		upCmd()
 		return
 	}
+	if *down != "" {
+		downCmd()
+		return
+	}
 }
 
 func upCmd() {
@@ -51,4 +55,14 @@ func upCmd() {
 	}
 	return
 
+}
+
+func downCmd() {
+	fmt.Printf("Removing record")
+	if err := command.RmRecord(*down, fmt.Sprintf("http://localhost:%d", *addr)); err != nil {
+		fmt.Println("Failed to remove record")
+		log.Panic(err.Error())
+		return
+	}
+	return
 }
