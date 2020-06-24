@@ -37,7 +37,7 @@ func cmd(c *fiber.Ctx) {
 }
 
 func clone(c *fiber.Ctx) {
-	var req cloneReq
+	var req CloneReq
 	if err := c.BodyParser(&req); err != nil {
 		log.Println("Failed to parse body")
 		log.Println(err.Error())

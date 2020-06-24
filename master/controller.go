@@ -50,7 +50,7 @@ func webhook(c *fiber.Ctx) {
 	s := c.Locals("store").(*store.Store)
 	d := s.GetRecordDeploy(uid)
 	if d.Branch == branch {
-		deploy.Record(d)
+		go deploy.Record(d, uid)
 	}
 
 	// all done, now return data
@@ -86,7 +86,8 @@ func addNewRec(c *fiber.Ctx) {
 		})
 		return
 	}
-	if err := AddRecord(recdata.Deploy, recdata.Name, s); err != nil {
+	uid, err := AddRecord(recdata.Deploy, recdata.Name, s)
+	if err != nil {
 		log.Println("Failed to add record")
 		log.Println(err.Error())
 		c.Status(400).JSON(fiber.Map{
@@ -95,6 +96,8 @@ func addNewRec(c *fiber.Ctx) {
 		})
 		return
 	}
+
+	go deploy.NewRecord(recdata.Deploy, uid)
 
 	// all done, now return data
 	// return data back to client
