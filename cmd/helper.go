@@ -37,7 +37,7 @@ func AddRecord(d structs.Deploy, name string, server string) error {
 
 // RmRecord - remove record
 func RmRecord(id, server string) error {
-	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/api/master/record/%s", server, strings.Trim(id)), nil)
+	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/api/master/record/%s", server, strings.TrimSpace(id)), nil)
 	if err != nil {
 		return err
 	}
