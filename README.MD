@@ -24,7 +24,7 @@ Do the same on slave node
 quickship -s -addr 8000 // slave node server
 ```
 Now create a `proj.json` json file that looks something like this :
-```json
+```jsonc
 {
     "nodes": ["http://123.456.789:8000"], // slave nodes
     "gitrepo": "https://github.com/abc/def", // repo of the project you want to deploy
