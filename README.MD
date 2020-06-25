@@ -97,7 +97,7 @@ quickship -s -addr 7000
 
 ### Deployment file
 | Property | Value | Description| example |
-| ----- | ----- | ----- |
+| ----- | ----- | ----- | ----- |
 | nodes | []string | array of slave node address | ["http://123.456.789:7000"] |
 | gitrepo | string | repo url | "https://github.com/abc/def" |
 | branch | string | branch name | "master" |
