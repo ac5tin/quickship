@@ -1,6 +1,6 @@
 go.sum
 test
-test.json
+test*.json
 bin
 qs.json
 .env

@@ -12,34 +12,29 @@ import (
 )
 
 func webhook(c *fiber.Ctx) {
+	// return status 200 back first
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+	})
+
 	var hookdata map[string]interface{}
 	if err := c.BodyParser(&hookdata); err != nil {
 		log.Println("Failed to parse body")
 		log.Println(err.Error())
-		c.Status(400).JSON(fiber.Map{
-			"result": "error",
-			"error":  "Failed to parse body",
-		})
 		return
 	}
 
 	b, err := json.Marshal(hookdata)
 	if err != nil {
+		log.Println("Failed to marshal hookdata")
 		log.Println(err.Error())
-		c.Status(400).JSON(fiber.Map{
-			"result": "error",
-			"error":  "Failed to parse body",
-		})
 		return
 	}
 
 	ref, err := jsonparser.GetString(b, "ref")
 	if err != nil {
+		log.Println("Failed to retrieve ref")
 		log.Println(err.Error())
-		c.Status(400).JSON(fiber.Map{
-			"result": "error",
-			"error":  "Failed to parse body",
-		})
 		return
 	}
 
@@ -53,11 +48,7 @@ func webhook(c *fiber.Ctx) {
 		go deploy.Record(d, uid)
 	}
 
-	// all done, now return data
-	// return data back to client
-	c.Status(200).JSON(fiber.Map{
-		"result": "success",
-	})
+	// all done
 	return
 }
 

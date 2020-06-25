@@ -83,7 +83,7 @@ func lCmd() {
 
 	// print list
 	for _, r := range reclist {
-		fmt.Println("ID: %s | Name: %s", r.ID, r.Name)
+		fmt.Printf("ID: %s | Name: %s \n", r.ID, r.Name)
 	}
 	return
 

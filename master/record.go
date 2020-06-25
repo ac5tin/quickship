@@ -1,6 +1,7 @@
 package master
 
 import (
+	"fmt"
 	"os"
 	"quickship/store"
 	"quickship/structs"
@@ -15,7 +16,7 @@ func AddRecord(d structs.Deploy, name string, s *store.Store) (string, error) {
 	uuid := uf.GenUUIDV4()
 
 	splits := strings.Split(d.GitRepo, "/")
-	hookid, err := worker.CreateHook(splits[len(splits)-2], splits[len(splits)-1], os.Getenv("GITHUB_TOKEN"), os.Getenv("SERVER_ADDRESS"))
+	hookid, err := worker.CreateHook(splits[len(splits)-2], splits[len(splits)-1], os.Getenv("GITHUB_TOKEN"), fmt.Sprintf("%s/api/master/webhook/%s", os.Getenv("SERVER_ADDRESS"), uuid))
 	if err != nil {
 		return "", err
 	}
