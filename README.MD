@@ -84,6 +84,12 @@ Start a master / slave server node server on port 7000
 quickship -s -addr 7000
 ```
 
+### Specify Master server
+The `-ms` flag specifies the master server to connect to
+```
+quickship -ms http://123.456.1.0 -addr 7000 -l
+```
+
 ### Flags
 | Flag | value | Description |
 | -----|-----|-----|
@@ -93,6 +99,7 @@ quickship -s -addr 7000
 | -n | string | name of deployment (used together with -up)|
 | -down | string | ID of the deployment record to be removed |
 | -l | NULL | add this flag to list deployment records|
+| -ms | string | master server url |
 
 
 ### Deployment file
@@ -109,7 +116,10 @@ quickship -s -addr 7000
 ### Roadmap
 - [x] basic build,start and stop
 - [x] list
-- [ ] specify master server
+- [x] specify master server
 - [ ] Suppport platforms other than Github
-- [ ] health check
+- [x] health check
 - [ ] better key value store
+- [ ] Networking for linking components
+- [ ] Built-in Loadbalancer
+- [ ] Cluster mode

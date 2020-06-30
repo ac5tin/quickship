@@ -16,7 +16,7 @@ import (
 
 var (
 	addr = flag.Int("addr", 8000, "TCP Address to listen to")
-	ms   = flag.String("master", "", "URL endpoint of master node server")
+	ms   = flag.String("ms", "http://localhost", "URL endpoint of master node server")
 	path = flag.String("path", "./qs.json", "Path to qs.json which stores deployment info")
 	srv  = flag.Bool("s", false, "Server mode")
 	name = flag.String("n", "", "Name of deployment")

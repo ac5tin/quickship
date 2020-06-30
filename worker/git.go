@@ -36,7 +36,7 @@ func Clone(repourl string, branch string, path string, token string) error {
 }
 
 // Pull - git pull a repo
-func Pull(repourl string, branch string, path string, token string) error {
+func Pull(branch string, path string, token string) error {
 	log.Println("Pulling")
 	defer log.Println("Done pulling")
 	repo, err := git.PlainOpen(path)

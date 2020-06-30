@@ -1,6 +1,7 @@
 package slave
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"quickship/worker"
@@ -64,6 +65,34 @@ func clone(c *fiber.Ctx) {
 	return
 }
 
+func pull(c *fiber.Ctx) {
+	var req PullReq
+	if err := c.BodyParser(&req); err != nil {
+		log.Println("Failed to parse body")
+		log.Println(err.Error())
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "Failed to parse body",
+		})
+		return
+	}
+	recordid := c.Params("id") // record id
+	if err := worker.Pull(req.Branch, recordid, os.Getenv("GITHUB_TOKEN")); err != nil {
+		log.Println("Failed to pull")
+		log.Println(err.Error())
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "Failed to pull",
+		})
+		return
+	}
+	// all done
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+	})
+	return
+}
+
 func rm(c *fiber.Ctx) {
 	recordid := c.Params("id") // record id
 	if err := os.RemoveAll(recordid); err != nil {
@@ -76,6 +105,37 @@ func rm(c *fiber.Ctx) {
 		return
 	}
 	// all done
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+	})
+	return
+}
+
+func ping(c *fiber.Ctx) {
+	var req PingReq
+	if err := c.BodyParser(&req); err != nil {
+		log.Println("Failed to parse body")
+		log.Println(err.Error())
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "Failed to parse body",
+		})
+		return
+	}
+	alive, err := worker.Ping(fmt.Sprintf("http://localhost:%d%s", req.Port, req.Path))
+	if err != nil || !alive {
+		log.Println("Ping failed")
+		if err != nil {
+			log.Println(err.Error())
+		}
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "Ping failed",
+		})
+		return
+	}
+
+	// pinged successfully, server is alive
 	c.Status(200).JSON(fiber.Map{
 		"result": "success",
 	})

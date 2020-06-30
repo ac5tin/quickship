@@ -52,7 +52,7 @@ func upCmd() {
 		log.Panic(err.Error())
 		return
 	}
-	if err := command.AddRecord(dp, *name, fmt.Sprintf("http://localhost:%d", *addr)); err != nil {
+	if err := command.AddRecord(dp, *name, fmt.Sprintf("%s:%d", *ms, *addr)); err != nil {
 		fmt.Println("Failed to add record")
 		log.Panic(err.Error())
 		return
@@ -63,7 +63,7 @@ func upCmd() {
 
 func downCmd() {
 	fmt.Println("Removing record")
-	if err := command.RmRecord(*down, fmt.Sprintf("http://localhost:%d", *addr)); err != nil {
+	if err := command.RmRecord(*down, fmt.Sprintf("%s:%d", *ms, *addr)); err != nil {
 		fmt.Println("Failed to remove record")
 		log.Panic(err.Error())
 		return
@@ -74,7 +74,7 @@ func downCmd() {
 // list
 func lCmd() {
 	fmt.Println("Listing records")
-	reclist, err := command.ListRecords(fmt.Sprintf("http://localhost:%d", *addr))
+	reclist, err := command.ListRecords(fmt.Sprintf("%s:%d", *ms, *addr))
 	if err != nil {
 		fmt.Println("Failed to retrieve list")
 		log.Panic(err.Error())

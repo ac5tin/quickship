@@ -13,8 +13,9 @@ type file map[string]Record
 
 // Store - a store object contianing path and file
 type Store struct {
-	path string
-	file *file
+	master string
+	path   string
+	file   *file
 }
 
 // ListRecord - a deployment list object (for display)

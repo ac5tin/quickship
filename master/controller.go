@@ -88,7 +88,10 @@ func addNewRec(c *fiber.Ctx) {
 		return
 	}
 
-	go deploy.NewRecord(recdata.Deploy, uid)
+	go func() {
+		deploy.NewRecord(recdata.Deploy, uid)
+		deploy.KeepAlive(uid, s)
+	}()
 
 	// all done, now return data
 	// return data back to client
