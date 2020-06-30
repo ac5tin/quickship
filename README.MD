@@ -17,11 +17,11 @@ vim .env # edit .env
 
 start a master server
 ```sh
-quickship -s -addr 7000 // master node server
+quickship -s -p 7000 // master node server
 ```
 Do the same on slave node
 ```sh
-quickship -s -addr 8000 // slave node server
+quickship -s -p 8000 // slave node server
 ```
 Now create a `proj.json` json file that looks something like this :
 ```jsonc
@@ -46,18 +46,18 @@ Now create a `proj.json` json file that looks something like this :
 ```
 Add this deployment
 ```sh
-quickship -addr 7000 -up ./proj.json -n proj0
+quickship -p 7000 -up ./proj.json -n proj0
 ```
 Project should now be deployed
 
 To Check list of deployed projects:
 ```sh
-quickship -addr 7000 -l
+quickship -p 7000 -l
 ```
 
 When you want to stop and remove a deployment record :
 ```sh
-quickship -addr 7000 -down abc123 # supply ID to -down
+quickship -p 7000 -down abc123 # supply ID to -down
 ```
 
 
@@ -69,7 +69,7 @@ mkdir ~/qs
 cd ~/qs
 touch .env
 vim .env
-quickship -s -addr 7000
+quickship -s -p 7000
 ```
 
 
@@ -81,20 +81,20 @@ go build -o bin/quickship
 ### Server
 Start a master / slave server node server on port 7000
 ```
-quickship -s -addr 7000
+quickship -s -p 7000
 ```
 
 ### Specify Master server
 The `-ms` flag specifies the master server to connect to
 ```
-quickship -ms http://123.456.1.0 -addr 7000 -l
+quickship -ms http://123.456.1.0 -p 7000 -l
 ```
 
 ### Flags
 | Flag | value | Description |
 | -----|-----|-----|
 | -s | NULL | add this flag to start in server mode|
-| -addr | int | port number of the server |
+| -p | int | port number of the server |
 | -up | string | path of deployment json file to be added |
 | -n | string | name of deployment (used together with -up)|
 | -down | string | ID of the deployment record to be removed |
