@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	addr = flag.Int("addr", 8000, "TCP Address to listen to")
+	port = flag.Int("p", 7291, "Port to listen to")
 	ms   = flag.String("ms", "http://localhost", "URL endpoint of master node server")
 	path = flag.String("path", "./qs.json", "Path to qs.json which stores deployment info")
 	srv  = flag.Bool("s", false, "Server mode")
@@ -68,8 +68,8 @@ func server() {
 	app.Use(recover.New(cfg))
 
 	// start server
-	log.Println(fmt.Sprintf("Listening on PORT %d", *addr))
-	if err := app.Listen(*addr); err != nil {
+	log.Println(fmt.Sprintf("Listening on PORT %d", *port))
+	if err := app.Listen(*port); err != nil {
 		log.Fatal(err.Error())
 	}
 }
