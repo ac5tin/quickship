@@ -29,6 +29,16 @@ func cmd() {
 		lCmd()
 		return
 	}
+
+	if *addnode != "" {
+		addNodeCmd()
+		return
+	}
+
+	if *delnode != "" {
+		rmNodeCmd()
+		return
+	}
 }
 
 func upCmd() {
@@ -87,4 +97,26 @@ func lCmd() {
 	}
 	return
 
+}
+
+// add node
+func addNodeCmd() {
+	fmt.Println("Adding Node")
+	if err := command.AddNode(fmt.Sprintf("%s:%d", *ms, *port), *addnode, *rid); err != nil {
+		fmt.Println("Failed to add node")
+		log.Panic(err.Error())
+		return
+	}
+	fmt.Println("Successfully Added node")
+}
+
+// remove node
+func rmNodeCmd() {
+	fmt.Println("Removing Node")
+	if err := command.RmNode(fmt.Sprintf("%s:%d", *ms, *port), *delnode, *rid); err != nil {
+		fmt.Println("Failed to remove node")
+		log.Panic(err.Error())
+		return
+	}
+	fmt.Println("Failed to remove node")
 }

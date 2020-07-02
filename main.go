@@ -15,14 +15,17 @@ import (
 )
 
 var (
-	port = flag.Int("p", 7291, "Port to listen to")
-	ms   = flag.String("ms", "http://localhost", "URL endpoint of master node server")
-	path = flag.String("path", "./qs.json", "Path to qs.json which stores deployment info")
-	srv  = flag.Bool("s", false, "Server mode")
-	name = flag.String("n", "", "Name of deployment")
-	up   = flag.String("up", "", "Path to file to be added to deployment list")
-	down = flag.String("down", "", "ID of deployment record to be removed")
-	list = flag.Bool("l", false, "List deployment records")
+	port    = flag.Int("p", 7291, "Port to listen to")
+	ms      = flag.String("ms", "http://localhost", "URL endpoint of master node server")
+	path    = flag.String("path", "./qs.json", "Path to qs.json which stores deployment info")
+	srv     = flag.Bool("s", false, "Server mode")
+	name    = flag.String("n", "", "Name of deployment")
+	up      = flag.String("up", "", "Path to file to be added to deployment list")
+	down    = flag.String("down", "", "ID of deployment record to be removed")
+	list    = flag.Bool("l", false, "List deployment records")
+	rid     = flag.String("id", "", "Record ID")
+	addnode = flag.String("addnode", "", "Add a single node to a record")
+	delnode = flag.String("delnode", "", "Delete a single node")
 )
 
 func main() {

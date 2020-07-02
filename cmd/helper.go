@@ -73,3 +73,55 @@ func ListRecords(server string) ([]store.ListRecord, error) {
 	}
 	return listresp.Data, nil
 }
+
+// AddNode - adds a node to record
+func AddNode(server, node, id string) error {
+	areq := struct {
+		URL string `json:"url"`
+	}{
+		URL: node,
+	}
+	reqBody, err := json.Marshal(areq)
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/master/record/%s/node/add", server, id), bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-Type", "application/json")
+	if err != nil {
+		return err
+	}
+	// REQ SETUP SUCCESS
+	// NOW SEND REQ
+	client := &http.Client{}
+	_, err = client.Do(req)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// RmNode - removes a node
+func RmNode(server, node, id string) error {
+	rreq := struct {
+		URL string `json:"url"`
+	}{
+		URL: node,
+	}
+	reqBody, err := json.Marshal(rreq)
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/master/record/%s/node/del", server, id), bytes.NewBuffer(reqBody))
+	req.Header.Set("Content-Type", "application/json")
+	if err != nil {
+		return err
+	}
+	// REQ SETUP SUCCESS
+	// NOW SEND REQ
+	client := &http.Client{}
+	_, err = client.Do(req)
+	if err != nil {
+		return err
+	}
+	return nil
+}

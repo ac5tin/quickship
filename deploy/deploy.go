@@ -13,17 +13,7 @@ import (
 func Record(d structs.Deploy, id string) {
 	log.Println(fmt.Sprintf("Deploying : %s", id))
 	for _, server := range d.Nodes {
-		go func(server string) {
-			runpull(d.Branch, server, id)
-			if d.Clean != nil {
-				runcmd(*d.Clean, server, id)
-			}
-			if d.Build != nil {
-				runcmd(*d.Build, server, id)
-			}
-			runcmd(d.Run, server, id)
-
-		}(server)
+		go handleServer(d, server, id)
 	}
 }
 
@@ -36,13 +26,7 @@ func NewRecord(d structs.Deploy, id string) {
 	for _, server := range d.Nodes {
 		go func(server string) {
 			defer wg.Done()
-			runclone(d.GitRepo, d.Branch, server, id)
-			if d.AddFiles != nil && len(*d.AddFiles) > 0 {
-				for _, f := range *d.AddFiles {
-					runcmd(fmt.Sprintf("curl %s -o %s", f.URL, f.Name), server, id)
-				}
-
-			}
+			handleNewServer(d, id, server)
 		}(server)
 	}
 	wg.Wait()
@@ -53,12 +37,7 @@ func NewRecord(d structs.Deploy, id string) {
 func DelRecord(d structs.Deploy, id string) {
 	log.Println(fmt.Sprintf("Deleting Record : %s", id))
 	for _, server := range d.Nodes {
-		go func(server string) {
-			if d.Clean != nil {
-				runcmd(*d.Clean, server, id)
-			}
-			runrm(server, id)
-		}(server)
+		go handleDelServer(d, id, server)
 	}
 }
 
@@ -101,4 +80,26 @@ func HealthCheck(server, id string, s *store.Store) bool {
 
 		time.Sleep(time.Millisecond * time.Duration(d.Health.Interval))
 	}
+}
+
+// AddNode - adds a new node
+func AddNode(server, id string, s *store.Store) {
+	log.Println("Adding new node")
+	if err := s.AddSNode(server, id); err != nil {
+		log.Println("Failed to add new node")
+		log.Println(err.Error())
+	}
+	d := s.GetRecordDeploy(id)
+	handleNewServer(d, id, server)
+	handleServer(d, server, id)
+}
+
+// RemoveNode - removes a node
+func RemoveNode(server, id string, s *store.Store) {
+	log.Println("Removing node")
+	if err := s.DelSNode(server, id); err != nil {
+		log.Println("Failed to add new node")
+		log.Println(err.Error())
+	}
+	handleDelServer(s.GetRecordDeploy(id), id, server)
 }

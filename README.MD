@@ -126,3 +126,4 @@ quickship -ms http://123.456.1.0 -p 7000 -l
 - [ ] Add/Remove nodes dynamically
 - [ ] Monitor health of node
 - [ ] Improve List
+- [ ] Update deployed record

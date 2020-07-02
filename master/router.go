@@ -9,4 +9,6 @@ func Routes(router *fiber.Group) {
 	router.Get("/record/:id", getRec)
 	router.Post("/record/add", addNewRec)
 	router.Delete("/record/:id", rmRec)
+	router.Post("/record/:id/node/add", addNode)
+	router.Post("/record/:id/node/del", delNode)
 }

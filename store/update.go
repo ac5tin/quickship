@@ -3,6 +3,8 @@ package store
 import (
 	"encoding/json"
 	"quickship/structs"
+
+	uf "github.com/ac5tin/usefulgo"
 )
 
 func (s *Store) saveStore() error {
@@ -87,6 +89,50 @@ func writeStore(f file, path string) error {
 		return err
 	}
 	if err := write(data, path); err != nil {
+		return err
+	}
+	return nil
+}
+
+// AddSNode - adds a slave node
+func (s *Store) AddSNode(server, recordID string) error {
+	data, err := read(s.path)
+	if err != nil {
+		return err
+	}
+	var f file
+	if err := json.Unmarshal(data, &f); err != nil {
+		return err
+	}
+	if fr, ok := f[recordID]; ok {
+		fr.Deploy.Nodes = append(fr.Deploy.Nodes, server)
+		f[recordID] = fr
+	}
+
+	s.file = &f
+	if err := s.saveStore(); err != nil {
+		return err
+	}
+	return nil
+}
+
+// DelSNode - deletes a slave node
+func (s *Store) DelSNode(server, recordID string) error {
+	data, err := read(s.path)
+	if err != nil {
+		return err
+	}
+	var f file
+	if err := json.Unmarshal(data, &f); err != nil {
+		return err
+	}
+	if fr, ok := f[recordID]; ok {
+		uf.ArrRMS(&fr.Deploy.Nodes, server)
+		f[recordID] = fr
+	}
+
+	s.file = &f
+	if err := s.saveStore(); err != nil {
 		return err
 	}
 	return nil

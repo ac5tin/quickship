@@ -154,3 +154,61 @@ func getRec(c *fiber.Ctx) {
 	})
 	return
 }
+
+func addNode(c *fiber.Ctx) {
+	var req struct {
+		URL string `json:"url"`
+	}
+	if err := c.BodyParser(&req); err != nil {
+		log.Println("Failed to parse body")
+		log.Println(err.Error())
+		return
+	}
+
+	s := c.Locals("store").(*store.Store)
+	uid := c.Params("id") // record id
+	if !s.Exist(uid) {
+		// does not exist
+		log.Println("ID does not exist")
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "ID does not exist",
+		})
+		return
+	}
+	go deploy.AddNode(req.URL, uid, s)
+	// all done
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+	})
+	return
+}
+
+func delNode(c *fiber.Ctx) {
+	var req struct {
+		URL string `json:"url"`
+	}
+	if err := c.BodyParser(&req); err != nil {
+		log.Println("Failed to parse body")
+		log.Println(err.Error())
+		return
+	}
+
+	s := c.Locals("store").(*store.Store)
+	uid := c.Params("id") // record id
+	if !s.Exist(uid) {
+		// does not exist
+		log.Println("ID does not exist")
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "ID does not exist",
+		})
+		return
+	}
+	go deploy.RemoveNode(req.URL, uid, s)
+	// all done
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+	})
+	return
+}
