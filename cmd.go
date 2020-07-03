@@ -39,6 +39,11 @@ func cmd() {
 		rmNodeCmd()
 		return
 	}
+
+	if *info {
+		infoCmd()
+		return
+	}
 }
 
 func upCmd() {
@@ -93,7 +98,7 @@ func lCmd() {
 
 	// print list
 	for _, r := range reclist {
-		fmt.Printf("ID: %s | Name: %s \n", r.ID, r.Name)
+		fmt.Printf("ID: %s | Name: %s | Nodes : %d \n", r.ID, r.Name, r.Nodes)
 	}
 	return
 
@@ -119,4 +124,24 @@ func rmNodeCmd() {
 		return
 	}
 	fmt.Println("Failed to remove node")
+}
+
+func infoCmd() {
+	fmt.Println("Retrieving Info")
+
+	rec, err := command.GetRecord(fmt.Sprintf("%s:%d", *ms, *port), *rid)
+	if err != nil {
+		fmt.Println("Failed to retrieve info")
+		log.Panic(err.Error())
+		return
+	}
+	fmt.Printf("Name : %s\n", rec.Name)
+	fmt.Printf("ID: %s\n", *rid)
+	fmt.Printf("Repo : %s | Branch : %s\n", rec.Deploy.GitRepo, rec.Deploy.Branch)
+	fmt.Println("Nodes :")
+	for _, node := range rec.Deploy.Nodes {
+		fmt.Printf("\t- Address : %s\n", node)
+	}
+	return
+
 }

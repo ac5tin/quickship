@@ -74,6 +74,31 @@ func ListRecords(server string) ([]store.ListRecord, error) {
 	return listresp.Data, nil
 }
 
+// GetRecord - returns a single store record
+func GetRecord(server, id string) (store.Record, error) {
+	var rec store.Record
+	req, err := http.NewRequest("Get", fmt.Sprintf("%s/api/master/record/%s", server, id), nil)
+	if err != nil {
+		return rec, err
+	}
+	// REQ SETUP SUCCESS
+	// NOW SEND REQ
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return rec, err
+	}
+	defer resp.Body.Close()
+	var recresp struct {
+		Record store.Record `json:"data"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&recresp); err != nil {
+		return rec, err
+	}
+	return recresp.Record, nil
+}
+
 // AddNode - adds a node to record
 func AddNode(server, node, id string) error {
 	areq := struct {

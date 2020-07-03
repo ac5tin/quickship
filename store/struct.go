@@ -20,6 +20,7 @@ type Store struct {
 
 // ListRecord - a deployment list object (for display)
 type ListRecord struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Nodes uint8  `json:"nodes"`
 }

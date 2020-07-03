@@ -89,6 +89,11 @@ The `-ms` flag specifies the master server to connect to
 ```
 quickship -ms http://123.456.1.0 -p 7000 -l
 ```
+### Get info of a deployment record
+```sh
+quickship -id abc123 -i
+```
+
 
 ### Flags
 | Flag | value | Description |
@@ -100,6 +105,8 @@ quickship -ms http://123.456.1.0 -p 7000 -l
 | -down | string | ID of the deployment record to be removed |
 | -l | NULL | add this flag to list deployment records|
 | -ms | string | master server url |
+| -id | string | ID of a specific record |
+| -i | NULL | detailed info of a specific record|
 
 
 ### Deployment file
@@ -123,7 +130,9 @@ quickship -ms http://123.456.1.0 -p 7000 -l
 - [ ] Networking for linking components
 - [ ] Built-in Loadbalancer
 - [ ] Cluster mode
-- [ ] Add/Remove nodes dynamically
+- [x] Add/Remove nodes dynamically
 - [ ] Monitor health of node
 - [ ] Improve List
 - [ ] Update deployed record
+- [ ] Load health check upon startup
+- [ ] Allow to use name as identifier (must specify ID if contains multiple of same name)

@@ -25,7 +25,7 @@ func (s *Store) GetList() []ListRecord {
 	retme := make([]ListRecord, 0)
 	if s.file != nil && len(*s.file) > 0 {
 		for uid, rec := range *s.file {
-			retme = append(retme, ListRecord{ID: uid, Name: rec.Name})
+			retme = append(retme, ListRecord{ID: uid, Name: rec.Name, Nodes: uint8(len(rec.Deploy.Nodes))})
 		}
 	}
 
