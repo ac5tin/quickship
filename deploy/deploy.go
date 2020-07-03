@@ -103,3 +103,11 @@ func RemoveNode(server, id string, s *store.Store) {
 	}
 	handleDelServer(s.GetRecordDeploy(id), id, server)
 }
+
+// KeepStoreAlive - monitor all records existing in store
+func KeepStoreAlive(s *store.Store) {
+	reclist := s.GetList()
+	for _, rec := range reclist {
+		go KeepAlive(rec.ID, s)
+	}
+}

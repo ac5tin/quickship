@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"quickship/deploy"
 	"quickship/master"
 	"quickship/slave"
 	"quickship/store"
@@ -48,6 +49,7 @@ func server() {
 
 	// store
 	s := store.Init(*path)
+	go deploy.KeepStoreAlive(s)
 	app.Use(func(c *fiber.Ctx) {
 		c.Locals("store", s)
 		c.Next()
