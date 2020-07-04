@@ -136,3 +136,6 @@ quickship -id abc123 -i
 - [ ] Update deployed record
 - [ ] Load health check upon startup
 - [ ] Allow to use name as identifier (must specify ID if contains multiple of same name)
+- [ ] Self-update
+- [ ] Optional health check
+- [ ] More ways to check health
