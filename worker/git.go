@@ -54,6 +54,7 @@ func Pull(branch string, path string, token string) error {
 		},
 		Progress:      os.Stdout,
 		ReferenceName: plumbing.NewBranchReferenceName(branch),
+		Force:         true,
 	}); err != nil {
 		return err
 	}

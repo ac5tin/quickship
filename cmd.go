@@ -123,7 +123,7 @@ func rmNodeCmd() {
 		log.Panic(err.Error())
 		return
 	}
-	fmt.Println("Failed to remove node")
+	fmt.Println("Successfully removed remove node")
 }
 
 func infoCmd() {
