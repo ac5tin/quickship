@@ -7,7 +7,7 @@ require (
 	github.com/buger/jsonparser v1.0.0
 	github.com/go-git/go-git/v5 v5.1.0
 	github.com/gofiber/compression v0.3.0
-	github.com/gofiber/fiber v1.12.5
+	github.com/gofiber/fiber v1.12.6
 	github.com/gofiber/recover v0.1.1
 	github.com/joho/godotenv v1.3.0
 	github.com/klauspost/compress v1.10.10 // indirect

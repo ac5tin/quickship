@@ -7,6 +7,8 @@ import (
 	"quickship/structs"
 	"sync"
 	"time"
+
+	uf "github.com/ac5tin/usefulgo"
 )
 
 // Record - deploys or redeploys a record
@@ -59,6 +61,12 @@ func HealthCheck(server, id string, s *store.Store) bool {
 			return false
 		}
 		d := s.GetRecordDeploy(id)
+		// check if node still exist
+		if !uf.ArrContains(d.Nodes, server) {
+			// node not exist
+			return false
+		}
+		// ping
 		if err := runping(server, d.Health); err != nil {
 			log.Println(err.Error())
 			checks++
