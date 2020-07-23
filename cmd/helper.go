@@ -150,3 +150,19 @@ func RmNode(server, node, id string) error {
 	}
 	return nil
 }
+
+// RdRec - redeploys a record
+func RdRec(server, id string) error {
+	req, err := http.NewRequest("Get", fmt.Sprintf("%s/api/master/record/%s/redeploy", server, id), nil)
+	if err != nil {
+		return err
+	}
+	// REQ SETUP SUCCESS
+	// NOW SEND REQ
+	client := &http.Client{}
+	_, err = client.Do(req)
+	if err != nil {
+		return err
+	}
+	return nil
+}

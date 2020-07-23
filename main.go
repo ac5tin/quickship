@@ -9,9 +9,8 @@ import (
 	"quickship/slave"
 	"quickship/store"
 
-	"github.com/gofiber/compression"
 	"github.com/gofiber/fiber"
-	"github.com/gofiber/recover"
+	"github.com/gofiber/fiber/middleware"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -28,6 +27,7 @@ var (
 	addnode = flag.String("addnode", "", "Add a single node to a record")
 	delnode = flag.String("delnode", "", "Delete a single node")
 	info    = flag.Bool("i", false, "Display info of a record")
+	rd      = flag.Bool("rd", false, "Re-deploy a record")
 )
 
 func main() {
@@ -45,7 +45,7 @@ func server() {
 
 	app := fiber.New()
 	// middleware
-	app.Use(compression.New())
+	app.Use(middleware.Compress())
 
 	// store
 	s := store.Init(*path)
@@ -59,19 +59,13 @@ func server() {
 	app.Get("/ping", func(c *fiber.Ctx) { c.Status(200).Send("pong") })
 
 	masterapi := app.Group("/api/master")
-	master.Routes(masterapi)
+	master.Routes(&masterapi)
 
 	slaveapi := app.Group("/api/slave")
-	slave.Routes(slaveapi)
+	slave.Routes(&slaveapi)
 
 	// ===== ERROR RECOVER =====
-	cfg := recover.Config{
-		Handler: func(c *fiber.Ctx, err error) {
-			c.SendString(err.Error())
-			c.SendStatus(500)
-		},
-	}
-	app.Use(recover.New(cfg))
+	app.Use(middleware.Recover())
 
 	// start server
 	log.Println(fmt.Sprintf("Listening on PORT %d", *port))

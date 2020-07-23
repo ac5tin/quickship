@@ -143,5 +143,15 @@ func infoCmd() {
 		fmt.Printf("\t- Address : %s\n", node)
 	}
 	return
+}
 
+func rdCmd() {
+	fmt.Println("Re-deplying Record")
+	if err := command.RdRec(fmt.Sprintf("%s:%d", *ms, *port), *rid); err != nil {
+		fmt.Println("Failed to re-deploy")
+		log.Panic(err.Error())
+		return
+	}
+	fmt.Println("Re-deployment commenced ...")
+	return
 }

@@ -212,3 +212,26 @@ func delNode(c *fiber.Ctx) {
 	})
 	return
 }
+
+func redeployRec(c *fiber.Ctx) {
+	s := c.Locals("store").(*store.Store)
+	uid := c.Params("id") // record id
+	if !s.Exist(uid) {
+		// does not exist
+		log.Println("ID does not exist")
+		c.Status(400).JSON(fiber.Map{
+			"result": "error",
+			"error":  "ID does not exist",
+		})
+		return
+	}
+	recordata := s.GetRecord(uid)
+	go deploy.ReDeploy(recordata.Deploy, uid)
+	// all done, now return data
+	// return data back to client
+	c.Status(200).JSON(fiber.Map{
+		"result": "success",
+		"data":   recordata,
+	})
+	return
+}

@@ -43,6 +43,14 @@ func DelRecord(d structs.Deploy, id string) {
 	}
 }
 
+// ReDeploy - full rebuild,redeploys a record
+func ReDeploy(d structs.Deploy, id string) {
+	log.Println(fmt.Sprintf("Redeploying Record : %s", id))
+	for _, server := range d.Nodes {
+		go handleReDeployServer(d, server, id)
+	}
+}
+
 // KeepAlive - making sure deployment is always alive
 func KeepAlive(id string, s *store.Store) {
 	log.Println(fmt.Sprintf("Monitoring : %s", id))
