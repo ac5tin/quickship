@@ -139,4 +139,4 @@ quickship -id abc123 -i
 - [ ] Self-update
 - [ ] Optional health check
 - [ ] More ways to check health
-- [ ] Full rebuild/re-deploy all
+- [x] Full rebuild/re-deploy all

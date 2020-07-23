@@ -44,6 +44,11 @@ func cmd() {
 		infoCmd()
 		return
 	}
+
+	if *rd {
+		rdCmd()
+		return
+	}
 }
 
 func upCmd() {

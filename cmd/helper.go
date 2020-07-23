@@ -53,7 +53,7 @@ func RmRecord(id, server string) error {
 
 // ListRecords - return list of records
 func ListRecords(server string) ([]store.ListRecord, error) {
-	req, err := http.NewRequest("Get", fmt.Sprintf("%s/api/master/list/all", server), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/master/list/all", server), nil)
 	if err != nil {
 		return make([]store.ListRecord, 0), err
 	}
@@ -77,7 +77,7 @@ func ListRecords(server string) ([]store.ListRecord, error) {
 // GetRecord - returns a single store record
 func GetRecord(server, id string) (store.Record, error) {
 	var rec store.Record
-	req, err := http.NewRequest("Get", fmt.Sprintf("%s/api/master/record/%s", server, id), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/master/record/%s", server, id), nil)
 	if err != nil {
 		return rec, err
 	}
@@ -153,7 +153,7 @@ func RmNode(server, node, id string) error {
 
 // RdRec - redeploys a record
 func RdRec(server, id string) error {
-	req, err := http.NewRequest("Get", fmt.Sprintf("%s/api/master/record/%s/redeploy", server, id), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/master/record/%s/redeploy", server, id), nil)
 	if err != nil {
 		return err
 	}
