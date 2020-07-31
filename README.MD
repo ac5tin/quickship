@@ -12,6 +12,14 @@ mkdir qs
 cd qs
 touch .env
 vim .env # edit .env
+
+# .env should contain GITHUB_TOKEN and SERVER_ADDRESS
+```
+
+.env file
+```
+GITHUB_TOKEN=abc123
+SERVER_ADDRESS=https://abc123.ap.ngrok.io
 ```
 
 
@@ -94,6 +102,22 @@ quickship -ms http://123.456.1.0 -p 7000 -l
 quickship -id abc123 -i
 ```
 
+### Add a node
+```sh
+quickship -id abc123 -addnode http://1.23.456.7:7291
+```
+
+### Remove a node
+```sh
+quickship -id abc123 -delnode http://1.23.456.7:7291
+```
+
+### Re-deploy
+Re-pull, download , build and start
+```sh
+quickship -id abc123 -rd
+```
+
 
 ### Flags
 | Flag | value | Description |
@@ -107,6 +131,9 @@ quickship -id abc123 -i
 | -ms | string | master server url |
 | -id | string | ID of a specific record |
 | -i | NULL | detailed info of a specific record|
+| -rd | NULL | redeploy a selected record |
+| -addnode | string | full address of slave node to be added |
+| -delnode | string | full address of slave node to be removed|
 
 
 ### Deployment file
@@ -134,7 +161,7 @@ quickship -id abc123 -i
 - [ ] Monitor health of node
 - [ ] Improve List
 - [ ] Update deployed record
-- [ ] Load health check upon startup
+- [x] Load health check upon startup
 - [ ] Allow to use name as identifier (must specify ID if contains multiple of same name)
 - [ ] Self-update
 - [ ] Optional health check
