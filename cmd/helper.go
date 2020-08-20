@@ -28,10 +28,11 @@ func AddRecord(d structs.Deploy, name string, server string) error {
 	// REQ SETUP SUCCESS
 	// NOW SEND REQ
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -44,10 +45,11 @@ func RmRecord(id, server string) error {
 	// REQ SETUP SUCCESS
 	// NOW SEND REQ
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -118,10 +120,11 @@ func AddNode(server, node, id string) error {
 	// REQ SETUP SUCCESS
 	// NOW SEND REQ
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -144,10 +147,11 @@ func RmNode(server, node, id string) error {
 	// REQ SETUP SUCCESS
 	// NOW SEND REQ
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -160,9 +164,10 @@ func RdRec(server, id string) error {
 	// REQ SETUP SUCCESS
 	// NOW SEND REQ
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }

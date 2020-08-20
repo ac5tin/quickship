@@ -25,10 +25,11 @@ func runcmd(cmd string, server string, id string) error {
 	req.Header.Set("Content-Type", "application/json")
 	// REQ SETUP SUCCESS
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -49,10 +50,11 @@ func runclone(repo, branch, server, id string) error {
 	req.Header.Set("Content-Type", "application/json")
 	// REQ SETUP SUCCESS
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -71,10 +73,11 @@ func runpull(branch, server, id string) error {
 	req.Header.Set("Content-Type", "application/json")
 	// REQ SETUP SUCCESS
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 
@@ -85,10 +88,11 @@ func runrm(server, id string) error {
 	}
 	// REQ SETUP SUCCESS
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
 

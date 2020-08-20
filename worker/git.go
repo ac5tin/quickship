@@ -109,9 +109,10 @@ func DeleteHook(owner string, reponame string, token string, hookid int) error {
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("token %s", token))
 	client := &nethttp.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
+	resp.Body.Close()
 	return nil
 }
