@@ -47,7 +47,7 @@ func DelRecord(d structs.Deploy, id string) {
 func ReDeploy(d structs.Deploy, id string) {
 	log.Println(fmt.Sprintf("Redeploying Record : %s", id))
 	for _, server := range d.Nodes {
-		go handleReDeployServer(d, server, id)
+		handleReDeployServer(d, server, id)
 	}
 }
 
